@@ -5,7 +5,11 @@ function combineKeysAndValues(keys, values) {
         obj[keys[i]] = values[i];
     }
     return obj;
+}
 
+function combineKeysAndValues_2(keys, values) {
+    const keyValueList = keys.map((key, index) => [key, values[index]]);
+    return Object.fromEntries(keyValueList);
 }
 
 const objKeys = ["key_1", "key_2", "key_3"];
@@ -15,3 +19,4 @@ const objValues = ["example", 1234, {
 }];
 
 console.log(combineKeysAndValues(objKeys, objValues));
+console.log(combineKeysAndValues_2(objKeys, objValues));
