@@ -1,4 +1,5 @@
 function combineKeysAndValues(keys, values) {
+    console.log(arguments);
     if(keys.length !== values.length) return {};
     const obj = {}
     for(let i = 0; i < keys.length; i++) {
