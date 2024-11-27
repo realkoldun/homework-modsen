@@ -1,0 +1,51 @@
+ООП сновывается на основе моделирования реальных сущностей
+реализация:
+    1. Функции-конструкторы
+    2. Классы
+    3. Наследование
+Зачем:
+    1. Модульность и инкапсуляция
+    2. Повторное использование кода
+    3. Гибкость и раширяемость
+    4. Упращение разработки
+
+Прототипы -- объект (родительский) null -> Object -> наш родительский объект -> дочерний объект
+
+Object.create(obj) -- создание на основе obj
+У любого объета есть поле *.__proto__ -> Object.prototype
+
+Как узнать от чего наследован объект:
+    Object.getPrototypeOf(someObj)
+Как установить прототип:
+    Object.setPrototypeOf(someObj, protoObj)
+
+Функции-конструкторы -- создает и инициализирует конструкторы
+    function ObjectConstructor(value) {
+        this.value = value;
+    } -- всегда возвращает объект
+    const obj = new ObjectConstructor(1); -- obj наследуется от ObjectConstructor
+
+У функций-конструкторов можно вызывать prototype:
+    ObjectConstructor.prototype.func = function () {}
+
+Статические свойства и  методы -- добавление к объекту, а не к экземпляру объекта
+    ObjectConstructor.func_2 = function(value) {}
+    ObjectConstructor.value_2 = 12
+
+    Их св-ва:
+        1. НЕ наследуются
+        2. Доступны через консттруктор
+
+Принципы ооп:
+    1. НАследование -- передача поведения
+    2. Инкапсуляция -- объединение данных и их сокрытие
+    3. Полиморфизм -- создание поведение без реализации (переопределение методов)
+    4. Абстракция
+
+Реализация наследование:
+    function ObjectConstructor_2(value) {
+        ObjectConstructor.call(this, value)
+    }
+    ObjectConstructor_2.prototype = Object.create(ObjectConstructor)
+    ObjectConstructor_2.prototype.constructor = ObjectConstructor_2;
+    const obj = new ObjectConstructor_2(2)

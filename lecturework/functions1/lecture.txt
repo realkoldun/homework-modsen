@@ -38,7 +38,7 @@
         //5.js
 
 5)   Ф-ции высшего порядка -- ф-ции принимающие или возвращающие другие ф-ции
-   IIFE(Imidetly involved function expression ф-ции):
+   IIFE(Immidetly involved function expression ф-ции):
         1. определяется и вызываются
         2. создание локального пространсва чтобы не засорять глобальное пространство
         (function () {
@@ -59,7 +59,7 @@
             yield 4;
             return 5; -- конец выполнения
         }
-        gen = generator();
+        gen = generator(); -- создается объект итератор
         gen.next().value -- 1 next() возвращает {value: 1, done: false}
         gen.next().value -- 2
         gen.next().value -- 3
