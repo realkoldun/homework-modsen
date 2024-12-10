@@ -1,8 +1,4 @@
 function fetchData(usersUrl, postsUrl, commentsUrl) {
-    setTimeout(() => {
-        return [Promise.reject()];
-    }, 5000);
-
     const userPromise = new Promise((resolve, reject) => {
         fetch(usersUrl).then(response => {
             if(!response.ok) reject(`Ответ сервера для user отрицательный`)
@@ -24,7 +20,11 @@ function fetchData(usersUrl, postsUrl, commentsUrl) {
         })
             .catch((error) => reject("Ошибка в получении данных для comments: ", error));
     });
-    return Promise.race([userPromise, postsPromise, commentsPromise]);
+    const result = Promise.race([userPromise, postsPromise, commentsPromise]);
+    /*setTimeout(() => {
+        return Promise.reject();
+    }, 5000);*/
+    return result;
 }
 
 
