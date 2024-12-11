@@ -20,11 +20,12 @@ function fetchData(usersUrl, postsUrl, commentsUrl) {
         })
             .catch((error) => reject("Ошибка в получении данных для comments: ", error));
     });
-    const result = Promise.race([userPromise, postsPromise, commentsPromise]);
-    /*setTimeout(() => {
-        return Promise.reject();
-    }, 5000);*/
-    return result;
+
+    const result = Promise.all([userPromise, postsPromise, commentsPromise]);
+    /**/
+    return Promise.race([ result, new Promise((resolve, reject) => {
+        setTimeout(() => reject("Timeout"), 5000)
+    })]);
 }
 
 
