@@ -24,24 +24,25 @@ async function task() {
         const evenIdPosts = posts.filter(post => post.id % 2 === 0);
         //console.log(evenIdPosts);
         const result = [];
-        const promises = [];
-        for (let i in evenIdPosts) {
-            promises.push(new Promise(async (resolve, reject) => {
+        const promises = evenIdPosts.map(post => {
+            return new Promise(async (resolve, reject) => {
                 try {
                     //console.log(evenIdPosts[i]);
-                    const postComments = await getCommentsByPostId(evenIdPosts[i].id);
+                    const postComments = await getCommentsByPostId(post.id);
                     const maxLengthComment = getMaxLength(postComments);
+                    //console.log(maxLengthComment.object);
                     result.push({
-                        postId: evenIdPosts[i].id,
+                        postId: post.id,
                         longestComment: maxLengthComment.object.body
                     });
-                    resolve(`Пост ${i} успешно обработан`);
+                    resolve(`Пост ${post.id} успешно обработан`);
                 } catch (error) {
-                    reject(`Пост ${i} необработан: `, error.message);
-                   // console.error(error.message);
+                    reject(`Пост ${post.id} необработан: `, error.message);
+                    // console.error(error.message);
                 }
-            }));
-        }
+        })
+        });
+        //console.log(promises);
         let request = "";
         await Promise.all(promises).then(() => request = JSON.stringify(result))
             .catch((error) => console.error(error));
