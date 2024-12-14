@@ -16,48 +16,45 @@ function getMaxLength(comments) {
     }, {object: null, length: 0});
 }
 
+async function sendRequest(url, request) {
+    const response = await fetch("https://jsonplaceholder.typicode.com/posts", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: request
+    });
+    if(!response.ok) return Promise.reject("Ошибка отправки данных на сервер");
+    return await response.json();
+}
+
+
 async function task() {
     const postsUrl = " https://jsonplaceholder.typicode.com/posts";
     try {
         const posts = await fetchData(postsUrl);
-        //console.log(posts);
         const evenIdPosts = posts.filter(post => post.id % 2 === 0);
-        //console.log(evenIdPosts);
         const result = [];
         const promises = evenIdPosts.map(post => {
             return new Promise(async (resolve, reject) => {
                 try {
-                    //console.log(evenIdPosts[i]);
                     const postComments = await getCommentsByPostId(post.id);
                     const maxLengthComment = getMaxLength(postComments);
-                    //console.log(maxLengthComment.object);
                     result.push({
                         postId: post.id,
                         longestComment: maxLengthComment.object.body
                     });
                     resolve(`Пост ${post.id} успешно обработан`);
                 } catch (error) {
-                    reject(`Пост ${post.id} необработан: `, error.message);
-                    // console.error(error.message);
+                    reject(`Пост ${post.id} не обработан: `, error.message);
                 }
         })
         });
-        //console.log(promises);
-        let request = "";
-        await Promise.all(promises).then(() => request = JSON.stringify(result))
+        let request = null;
+        await Promise.all(promises)
+            .then(() => request = JSON.stringify(result))
             .catch((error) => console.error(error));
-        //console.log(request);
-        if(request !== "") {
-            const response = await fetch("https://jsonplaceholder.typicode.com/posts", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: request
-            });
-            if(!response.ok) return Promise.reject("Ошибка отправки данных на сервер");
-            return await response.json();
-        }
+        if(request !== null) return sendRequest(postsUrl, request);
         return Promise.reject("Ошибка отправки данных. Request пустой");
     } catch (error) {
         console.error(error.message);
