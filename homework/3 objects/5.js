@@ -1,7 +1,6 @@
 
 function removeKeys(obj, ...args) {
-    const keys = args;
-    keys.forEach(key => {
+    args.forEach(key => {
         delete obj[key];
     });
     return obj;
