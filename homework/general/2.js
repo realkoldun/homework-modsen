@@ -4,7 +4,7 @@ function greet(greeting) {
 
 const person = {name: "Alice"}
 
-greet.myBind = (object, greeting) => {
+Function.prototype.myBind = (object, greeting) => {
     return function () {
         object.greet = greet;
         object.greet(greeting);
